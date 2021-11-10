@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Person Lists{% endblock %}
+
+{% block content %}
+  <h2>Person Lists » All info</h2>
+
+  <p>
+    <a href="{% url 'person_add' %}">Add person</a>
+  </p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Village</th>
+        <th>Post Code</th>
+        <th>Division</th>
+        <th>District</th>
+        <th>Policstation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in people %}
+        <tr>
+          <td><a href="{% url 'person_change' person.pk %}">{{ person.name }}</a></td>
+          <td>{{ person.village }}</td>
+          <td>{{ person.post_code }}</td>
+          <td>{{ person.division.name }}</td>
+          <td>{{ person.district.name }}</td>
+          <td>{{ person.policstation.name }}</td>
+
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No person in the database. <a href="{% url 'person_add' %}">Add the first person</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

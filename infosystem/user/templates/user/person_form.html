@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h2>Information Input Form</h2>
+
+  <form method="post" id="personForm" data-districts-url="{% url 'ajax_load_districts' %}" data-policstations-url="{% url 'ajax_load_policstations' %}"novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+    <a href="{% url 'person_changelist' %}">See Lists</a>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_division").change(function () {
+      var url = $("#personForm").attr("data-districts-url");
+      var divisionId = $(this).val();
+
+      $.ajax({
+        url: url,
+        data: {
+          'division': divisionId
+        },
+        success: function (data) {
+          $("#id_district").html(data);
+        }
+      });
+
+    });
+  </script>
+
+  <script>
+    $("#id_district").change(function () {
+      var url = $("#personForm").attr("data-policstations-url");
+      var districtId = $(this).val();
+      $.ajax({
+        url: url,
+        data: {
+          'district': districtId
+        },
+        success: function (data) {
+          $("#id_policstation").html(data);
+        }
+      });
+
+    });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for ps in policstation %}
+<option value="{{ ps.pk }}">{{ ps.name }}</option>
+{% endfor %}
